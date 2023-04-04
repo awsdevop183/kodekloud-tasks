@@ -1,0 +1,43 @@
+---
+- name: Playbook to create softlinks
+  hosts: all
+  become: yes
+  tasks:
+    - name: create an empty file blog.txt
+      file:
+        path: /opt/sysops/blog.txt
+        state: touch
+        owner: tony
+        group: tony
+      when: inventory_hostname == "stapp01"
+    - name: Create soft link on stapp01
+      file:
+        src: /opt/sysops
+        dest: /var/www/html
+        state: link
+    
+    - name: create an empty file story.txt
+      file:
+        path: /opt/sysops/story.txt
+        state: touch
+        owner: steve
+        group: steve
+      when: inventory_hostname == "stapp02"
+    - name: Create soft link on stapp02
+      file:
+        src: /opt/sysops
+        dest: /var/www/html
+        state: link
+    - name: create an empty file media.txt
+      file:
+        path: /opt/sysops/media.txt
+        state: touch
+        owner: banner
+        group: banner
+      when: inventory_hostname == "stapp03"
+    - name: Create soft link on stapp03
+      file:
+        src: /opt/sysops
+        dest: /var/www/html
+        state: link
+    
