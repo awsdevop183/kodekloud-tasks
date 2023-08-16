@@ -1,0 +1,25 @@
+pipeline {
+    agent {
+        label 'app03'
+    }
+    
+    stages {
+        stage('Build') {
+            steps {
+                git branch: "master",
+                    url: "http://git.stratos.xfusioncorp.com/sarah/web.git"
+                
+                sh 'docker build -t stregi01.stratos.xfusioncorp.com:5000/nginx:latest .'
+                sh 'docker push stregi01.stratos.xfusioncorp.com:5000/nginx:latest'
+            }
+        }
+    }
+}
+
+
+
+
+
+
+
+yum install -y java-17-openjdk.x86_64
