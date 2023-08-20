@@ -1,0 +1,8 @@
+- name: "Coping index file to app servers"
+  become: yes
+  hosts: all
+  tasks:
+    - name: "Copy index.html"
+      copy:
+        src:  /usr/src/itadmin/index.html
+        dest: /opt/itadmin
