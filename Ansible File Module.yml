@@ -1,0 +1,19 @@
+
+
+stapp01 ansible_user=tony ansible_host=stapp01 ansible_ssh_pass=Ir0nM@n
+stapp02 ansible_user=steve ansible_host=stapp02 ansible_ssh_pass=Am3ric@
+stapp03 ansible_user=banner ansible_host=stapp03 ansible_ssh_pass=BigGr33n
+
+
+---
+- name: "Copy files"
+  hosts: all
+  become: yes
+  tasks:
+    - name: "Copy opt.txt"
+      file:
+        path: /opt/opt.txt
+        state: touch
+        mode: 0644
+        owner: "{{ansible_user}}"
+        group: "{{ansible_user}}"
