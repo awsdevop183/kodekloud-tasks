@@ -5,6 +5,7 @@ services:
     image: httpd:latest
     container_name: httpd
     ports:
-      - "8089:80"
+      - "6300:80"
     volumes:
-      - /opt/security:/usr/local/apache2/htdocs
+      - /opt/devops:/usr/local/apache2/htdocs
+  
