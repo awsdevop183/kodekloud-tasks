@@ -1,0 +1,70 @@
+---
+- name: Manage ACL-based files on app servers
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Ensure /opt/data directory exists
+      file:
+        path: /opt/data
+        state: directory
+        owner: root
+        group: root
+        mode: '0755'
+
+    # App Server 1 (stapp01) - blog.txt, ACL for group tony (read)
+    - name: Create blog.txt on app server 1
+      file:
+        path: /opt/data/blog.txt
+        state: touch
+        owner: root
+        group: root
+        mode: '0644'
+      when: inventory_hostname == "stapp01"
+
+    - name: Set ACL for group tony on blog.txt (read only)
+      acl:
+        path: /opt/data/blog.txt
+        entity: tony
+        etype: group
+        permissions: r
+        state: present
+      when: inventory_hostname == "stapp01"
+
+    # App Server 2 (stapp02) - story.txt, ACL for user steve (rw)
+    - name: Create story.txt on app server 2
+      file:
+        path: /opt/data/story.txt
+        state: touch
+        owner: root
+        group: root
+        mode: '0644'
+      when: inventory_hostname == "stapp02"
+
+    - name: Set ACL for user steve on story.txt (read+write)
+      acl:
+        path: /opt/data/story.txt
+        entity: steve
+        etype: user
+        permissions: rw
+        state: present
+      when: inventory_hostname == "stapp02"
+
+    # App Server 3 (stapp03) - media.txt, ACL for group banner (rw)
+    - name: Create media.txt on app server 3
+      file:
+        path: /opt/data/media.txt
+        state: touch
+        owner: root
+        group: root
+        mode: '0644'
+      when: inventory_hostname == "stapp03"
+
+    - name: Set ACL for group banner on media.txt (read+write)
+      acl:
+        path: /opt/data/media.txt
+        entity: banner
+        etype: group
+        permissions: rw
+        state: present
+      when: inventory_hostname == "stapp03"
