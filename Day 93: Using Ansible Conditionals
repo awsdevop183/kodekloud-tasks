@@ -1,0 +1,33 @@
+
+---
+- name: Copy files
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Copying to app server-1
+      copy:
+        src: /usr/src/dba/blog.txt
+        dest: /opt/dba/
+        owner: tony
+        group: tony
+        mode: '0777'
+      when: ansible_hostname == "stapp01"
+
+    - name: Copying to app server-2
+      copy:
+        src: /usr/src/dba/story.txt
+        dest: /opt/dba/
+        owner: steve
+        group: steve
+        mode: '0777'
+      when: ansible_hostname == "stapp02"
+
+    - name: Copying to app server-3
+      copy:
+        src: /usr/src/dba/media.txt
+        dest: /opt/dba/
+        owner: banner
+        group: banner
+        mode: '0777'
+      when: ansible_hostname == "stapp03"
