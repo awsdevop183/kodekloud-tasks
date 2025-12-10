@@ -1,0 +1,34 @@
+---
+- name: Install httpd and deploy sample web page
+  hosts: all
+  become: yes
+
+  tasks:
+    - name: Install httpd web server
+      ansible.builtin.yum:
+        name: httpd
+        state: present
+
+    - name: Ensure httpd service is enabled and running
+      ansible.builtin.service:
+        name: httpd
+        state: started
+        enabled: yes
+
+    - name: Create base index.html with initial content
+      ansible.builtin.copy:
+        dest: /var/www/html/index.html
+        content: |
+          This is a Nautilus sample file, created using Ansible!
+        owner: apache
+        group: apache
+        mode: '0655'
+
+    - name: Add welcome line at the top of index.html
+      ansible.builtin.lineinfile:
+        path: /var/www/html/index.html
+        line: "Welcome to Nautilus Group!"
+        insertbefore: BOF
+        owner: apache
+        group: apache
+        mode: '0655'
