@@ -4,9 +4,9 @@
   become: yes
 
   tasks:
-    - name: Ensure /opt/data directory exists
+    - name: Ensure /opt/sysops directory exists
       file:
-        path: /opt/data
+        path: /opt/sysops
         state: directory
         owner: root
         group: root
@@ -15,7 +15,7 @@
     # App Server 1 (stapp01) - blog.txt, ACL for group tony (read)
     - name: Create blog.txt on app server 1
       file:
-        path: /opt/data/blog.txt
+        path: /opt/sysops/blog.txt
         state: touch
         owner: root
         group: root
@@ -24,7 +24,7 @@
 
     - name: Set ACL for group tony on blog.txt (read only)
       acl:
-        path: /opt/data/blog.txt
+        path: /opt/sysops/blog.txt
         entity: tony
         etype: group
         permissions: r
@@ -34,7 +34,7 @@
     # App Server 2 (stapp02) - story.txt, ACL for user steve (rw)
     - name: Create story.txt on app server 2
       file:
-        path: /opt/data/story.txt
+        path: /opt/sysops/story.txt
         state: touch
         owner: root
         group: root
@@ -43,7 +43,7 @@
 
     - name: Set ACL for user steve on story.txt (read+write)
       acl:
-        path: /opt/data/story.txt
+        path: /opt/sysops/story.txt
         entity: steve
         etype: user
         permissions: rw
@@ -53,7 +53,7 @@
     # App Server 3 (stapp03) - media.txt, ACL for group banner (rw)
     - name: Create media.txt on app server 3
       file:
-        path: /opt/data/media.txt
+        path: /opt/sysops/media.txt
         state: touch
         owner: root
         group: root
@@ -62,7 +62,7 @@
 
     - name: Set ACL for group banner on media.txt (read+write)
       acl:
-        path: /opt/data/media.txt
+        path: /opt/sysops/media.txt
         entity: banner
         etype: group
         permissions: rw
